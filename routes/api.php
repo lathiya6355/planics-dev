@@ -43,9 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('assignpermission', [rolecontroller::class, 'assignpermission']);
     });
     Route::post('store', [heroSectionController::class, 'store'])->name('store-post');
-    // });
     Route::put('update/{id}', [heroSectionController::class, 'update'])->name('update-post');
     Route::delete('delete/{id}', [heroSectionController::class, 'destroy'])->name('delete-post');
     Route::get('view/{id}', [heroSectionController::class, 'show'])->name('show-get');
-    Route::get('view', [heroSectionController::class, 'showAll'])->name('showAll-get');
+    Route::get('view', [heroSectionController::class, 'index'])->name('showAll-get');
 });

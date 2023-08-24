@@ -17,18 +17,10 @@ class rolecontroller extends Controller
     {
         $role = Role::all();
         if (is_null($role)) {
-            $response = [
-                'message' => 'role not found',
-            ];
-            $responseCode = 404;
+            return $this->sendError('Role not found');
         } else {
-            $response = [
-                'message' => 'role found',
-                'data' => $role
-            ];
-            $responseCode = 200;
+            return $this->sendResponse($role, 'Role found...!');
         }
-        return response()->json($response, $responseCode);
     }
 
     /**
@@ -45,11 +37,12 @@ class rolecontroller extends Controller
     public function store(roleRequst $request)
     {
         $data = $request->validated();
+        $data['guard_name'] = 'web';
         $role = Role::create($data);
         $permission = $request->permission_id;
         $permissions = explode(',', $permission);
         $role->givePermissionTo($permissions);
-        return response()->json(['message' => "role Created Successfully", 'status' => 300, 'data' => $role]);
+        return $this->sendResponse($permission, 'Role Created Successfully');
     }
 
     /**
@@ -59,19 +52,10 @@ class rolecontroller extends Controller
     {
         $role = Role::find($id);
         if (is_null($role)) {
-            $response = [
-                'message' => 'role not found',
-            ];
-            $responseCode = 404;
+            return $this->sendError('Role not found');
         } else {
-            // dd();
-            $response = [
-                'message' => 'role found',
-                'data' => $role
-            ];
-            $responseCode = 200;
+            return $this->sendResponse($role, 'Role found');
         }
-        return response()->json($response, $responseCode);
     }
 
     /**
@@ -87,20 +71,19 @@ class rolecontroller extends Controller
      */
     public function update(Request $request)
     {
-        // dd($request->all());
         $permission = $request->permission_id;
         $permissions = explode(',', $permission);
         $role = Role::find($request->role_id);
-        if(is_null($role)) {
-            return response()->json(['message' => 'role does not exist..!']);
+        if (is_null($role)) {
+            return $this->sendError('role does not exist..!');
         }
-        DB::table('role_has_permissions')->where('role_id' ,$request->role_id)->delete();
+        DB::table('role_has_permissions')->where('role_id', $request->role_id)->delete();
         $role->update([
             'name' => $request->name,
-            'guard_name' =>'web'
+            'guard_name' => 'web'
         ]);
         $role->givePermissionTo($permissions);
-        return response()->json(['message'=>'Role updated successfully...!']);
+        return $this->sendResponse($permissions, 'Role updated successfully...!');
     }
 
     /**
@@ -110,25 +93,19 @@ class rolecontroller extends Controller
     {
         $role = Role::find($id);
         if (is_null($role)) {
-            $response = [
-                'message' => 'role not found',
-            ];
-            $responseCode = 404;
+            return $this->sendError('Role not found...!');
         } else {
             $role->delete();
-            $response = [
-                'message' => 'role Deleted Successfully'
-            ];
-            $responseCode = 200;
+            return $this->sendResponse([], 'Role Deleted Successfully...!');
         }
-        return response()->json([$response, $responseCode]);
     }
 
-    public function assignpermission(Request $request) {
+    public function assignpermission(Request $request)
+    {
         $permission = $request->permission_id;
         $permissions = explode(',', $permission);
         $role = Role::find($request->role_id);
         $role->givePermissionTo($permissions);
-        return response()->json(['message' => 'permission assign...!']);
+        return $this->sendResponse($permissions, 'Permission assign...!');
     }
 }

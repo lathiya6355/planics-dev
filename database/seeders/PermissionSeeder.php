@@ -20,29 +20,29 @@ class PermissionSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'edit articles']);
-        Permission::create(['name' => 'delete articles']);
-        Permission::create(['name' => 'show articles']);
-        Permission::create(['name' => 'create articles']);
-        Permission::create(['name' => 'show all articles']);
+        // Permission::create(['name' => 'edit articles']);
+        // Permission::create(['name' => 'delete articles']);
+        // Permission::create(['name' => 'show articles']);
+        // Permission::create(['name' => 'create articles']);
+        // Permission::create(['name' => 'show all articles']);
 
         // create roles and assign existing permissions
         $role1 = Role::create(['name' => 'Admin']);
-        $role1->givePermissionTo('edit articles');
-        $role1->givePermissionTo('delete articles');
-        $role1->givePermissionTo('show articles');
-        $role1->givePermissionTo('create articles');
-        $role1->givePermissionTo('show all articles');
+        // $role1->givePermissionTo('edit articles');
+        // $role1->givePermissionTo('delete articles');
+        // $role1->givePermissionTo('show articles');
+        // $role1->givePermissionTo('create articles');
+        // $role1->givePermissionTo('show all articles');
 
         $role2 = Role::create(['name' => 'HR']);
-        $role2->givePermissionTo('edit articles');
-        $role2->givePermissionTo('delete articles');
-        $role2->givePermissionTo('show articles');
-        $role2->givePermissionTo('create articles');
-        $role2->givePermissionTo('show all articles');
+        // $role2->givePermissionTo('edit articles');
+        // $role2->givePermissionTo('delete articles');
+        // $role2->givePermissionTo('show articles');
+        // $role2->givePermissionTo('create articles');
+        // $role2->givePermissionTo('show all articles');
 
         $role3 = Role::create(['name' => 'Employee']);
-        $role3->givePermissionTo('show articles');
+        // $role3->givePermissionTo('show articles');
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
         // create demo users

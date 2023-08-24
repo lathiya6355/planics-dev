@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\permissionRequest;
 use App\Http\Requests\permissionUpdateRequest;
+use App\services\permissionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,22 +15,21 @@ class permissioncontroller extends Controller
     /**
      * Display a listing of the resource.
      */
+    private permissionService $permissionService;
+
+    public function __construct(permissionService $permissionService)
+    {
+        $this->permissionService = $permissionService;
+    }
+
     public function index()
     {
         $permission = Permission::all();
         if (is_null($permission)) {
-            $response = [
-                'message' => 'Permission not found',
-            ];
-            $responseCode = 404;
+            return $this->sendError('Permission not found');
         } else {
-            $response = [
-                'message' => 'Permission found',
-                'data' => $permission
-            ];
-            $responseCode = 200;
+            return $this->sendResponse($permission, 'Permission found');
         }
-        return response()->json($response, $responseCode);
     }
 
     /**
@@ -37,6 +37,7 @@ class permissioncontroller extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -45,11 +46,12 @@ class permissioncontroller extends Controller
     public function store(Request $request, permissionRequest $permission)
     {
         $data = $permission->validated();
+        $data['guard_name'] = 'web';
         $permission = Permission::create($data);
         $role = $request->role_id;
         $roles = explode(',', $role);
         $permission->assignRole($roles);
-        return response()->json(['message' => "permission Created Successfully", 'status' => 300, 'data' => $permission]);
+        return $this->sendResponse($permission, 'permission Created Successfully');
     }
 
     /**
@@ -59,18 +61,10 @@ class permissioncontroller extends Controller
     {
         $permission = Permission::find($id);
         if (is_null($permission)) {
-            $response = [
-                'message' => 'Permission not found',
-            ];
-            $responseCode = 404;
+            return $this->sendError('Permission not found');
         } else {
-            $response = [
-                'message' => 'Permission found',
-                'data' => $permission
-            ];
-            $responseCode = 200;
+            return $this->sendResponse($permission, 'Permission found');
         }
-        return response()->json($response, $responseCode);
     }
 
     /**
@@ -90,16 +84,15 @@ class permissioncontroller extends Controller
         $roles = explode(',', $role);
         $permission = Permission::find($request->permission_id);
         if (is_null($permission)) {
-            return response()->json(['message' => 'permission does not exist..!']);
+            return $this->sendError('permission does not exist..!');
         }
         DB::table('role_has_permissions')->where('permission_id', $request->permission_id)->delete();
-        // dd
         $permission->update([
             'name' => isset($request->name) ? $request->name : $permission->name,
             'guard_name' => 'web'
         ]);
         $permission->assignRole($roles);
-        return response()->json(['message' => 'Permission updated successfully...!']);
+        return $this->sendResponse($roles, 'Permission updated successfully...!');
     }
 
     /**
@@ -109,26 +102,19 @@ class permissioncontroller extends Controller
     {
         $permission = Permission::find($id);
         if (is_null($permission)) {
-            $response = [
-                'message' => 'Permission not found',
-            ];
-            $responseCode = 404;
+            return $this->sendError('Permission not found...!');
         } else {
             $permission->delete();
-            $response = [
-                'message' => 'Permission Deleted Successfully'
-            ];
-            $responseCode = 200;
+            return $this->sendResponse([], 'Permission Deleted Successfully...!');
         }
-        return response()->json([$response, $responseCode]);
     }
 
     public function assignrole(Request $request)
     {
         $role = $request->role_id;
-        $roles = explode(',',$role);
+        $roles = explode(',', $role);
         $permission = Permission::find($request->permission_id);
         $permission->assignRole($roles);
-        return response()->json(['message' => 'Roles assign...!']);
+        return $this->sendResponse($roles, 'Roles assign...!');
     }
 }

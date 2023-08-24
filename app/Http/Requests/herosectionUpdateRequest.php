@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class herosectionUpdateRequest extends FormRequest
 {
@@ -19,6 +22,15 @@ class herosectionUpdateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'error'   => $validator->errors()
+        ], Response::HTTP_UNPROCESSABLE_ENTITY));
+    }
+
     public function rules(): array
     {
         return [

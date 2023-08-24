@@ -12,24 +12,13 @@ class userController extends Controller
 {
     public function register(registerUserRequest $request)
     {
-        // dd(true);
-        // $user = User::all();
-        // dd($user);
         if ($user = User::create($request->all())) {
             $user->assignRole('Employee');
-            // dd($user);
             // $token = $user->createToken("auth_Token")->accessToken;
-            $token = $user->createToken("MyAuthApp")->plainTextToken;
-
-            return response()->json([
-                'message' => 'user created',
-                'user' => $user,
-                'token' => $token
-            ]);
+            $user['token'] = $user->createToken("MyAuthApp")->plainTextToken;
+            return $this->sendResponse($user,'User register successfully.');
         } else {
-            return response()->json([
-                'message' => 'user not created',
-            ], 404);
+            return $this->sendError('Something went wrong.');
         }
     }
 
@@ -38,28 +27,15 @@ class userController extends Controller
             $user = Auth::user();
             $user->getRoleNames();
             // $token = $user->createToken("auth_Token")->accessToken;
-            $token = $user->createToken("MyAuthApp")->plainTextToken;
-            return response()->json([
-                'message' => 'Logged In',
-                'data' => $user,
-                'token' => $token
-            ]);
+            $user['token'] = $user->createToken("MyAuthApp")->plainTextToken;
+            return $this->sendResponse($user,'User login successfully.');
         } else {
-            return response()->json([
-                'message' => 'User not Found'
-            ], 404);
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
     }
 
-    // public function demo() {
-    //     $data = ['email' => 'test@example.com','password' => '12345'];
-    //     Auth::attempt($data);
-
-    //     dd(Auth::user()->can(' articles'));
-    // }
-
     public function logout(Request $request) {
         $request->user()->tokens()->delete();
-        return response()->json(['message' => 'user logout']);
+        return $this->sendResponse([],'user logout');
     }
 }

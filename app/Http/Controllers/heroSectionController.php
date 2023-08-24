@@ -4,21 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\herosectionRequest;
 use App\Http\Requests\herosectionUpdateRequest;
+use App\Http\Resources\heroResource;
 use App\Models\herosection;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\services\heroService;
+use Illuminate\Http\Response;
 
 class heroSectionController extends Controller
 {
+    private heroService $heroService;
+
+    public function __construct(heroService $heroService)
+    {
+        $this->heroService = $heroService;
+    }
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        //
+        if (Auth::user()->can('show all articles')) {
+            $heros = $this->heroService->getAll();
+            return $this->sendResponse(heroResource::collection($heros), 'section found');
+        } else {
+            return $this->sendError('Employee can not accesible this route');
+        }
     }
 
     /**
@@ -34,7 +49,6 @@ class heroSectionController extends Controller
      */
     public function store(herosectionRequest $request)
     {
-        // dd(true);
         if (Auth::user()->can('create articles')) {
             $hero = $request->validated();
             if ($request->hasFile('image')) {
@@ -42,9 +56,9 @@ class heroSectionController extends Controller
             }
             $hero = herosection::create($hero);
             $hero['image'] = asset('storage/' . $hero['image']);
-            return response()->json(['message' => "Section Created Successfully", 'status' => 300, 'data' => $hero]);
+            return $this->sendResponse($hero, 'Section Created Successfully',200);
         } else {
-            return response()->json(['message' => "Employee can not accesible this route", 'status' => 404]);
+            return $this->sendError('Employee can not accesible...!',403);
         }
     }
 
@@ -54,49 +68,14 @@ class heroSectionController extends Controller
     public function show(string $id)
     {
         if (Auth::user()->can('show articles')) {
-            $hero = herosection::find($id);
+            $hero = $this->heroService->getById($id);
             if (is_null($hero)) {
-                $response = [
-                    'message' => 'section not found',
-                ];
-                $responseCode = 404;
+                return $this->sendError('section not found');
             } else {
-                $hero['image'] = asset('storage/' . $hero['image']);
-                $response = [
-                    'message' => 'section found',
-                    'data' => $hero
-                ];
-                $responseCode = 200;
+                return $this->sendResponse(new heroResource($hero), 'section retrieved successfully', Response::HTTP_FOUND);
             }
-            return response()->json($response, $responseCode);
         } else {
-            return response()->json(['message' => 'not accesible']);
-        }
-    }
-
-    public function showAll()
-    {
-        if (Auth::user()->can('show all articles')) {
-            $heros = herosection::all();
-            // dd($hero);
-            if (is_null($heros)) {
-                $response = [
-                    'message' => 'section not found',
-                ];
-                $responseCode = 404;
-            } else {
-                foreach ($heros as $hero) {
-                    $hero['image'] = asset('storage/' . $hero['image']);
-                }
-                $response = [
-                    'message' => 'section found',
-                    'data' => $heros
-                ];
-                $responseCode = 200;
-            }
-            return response()->json($response, $responseCode);
-        } else {
-            return response()->json(['message' => 'not accesible']);
+            return $this->sendError('Employee can not accesible...!');
         }
     }
 
@@ -113,27 +92,21 @@ class heroSectionController extends Controller
      */
     public function update(herosectionUpdateRequest $request, $id)
     {
-        // dd($request->validated());
         if (Auth::user()->can('edit articles')) {
+            // $result = $request->all();
+            // $hero = $this->heroService->getById($id);
             $hero = herosection::where('id', $id)->update($request->validated());
             if ($hero == 0) {
-                $response = [
-                    'message' => 'Section not found'
-                ];
-                $responseCode = 404;
+                return $this->sendError('section not found');
             } else {
-                if ($request->hasFile('image')) {
-                    Storage::delete("public/$request->image");
-                    $hero['image'] = $request->image->store('images', ['disk' => 'public']);
+                if (Storage::disk('public')->exists($request->image)) {
+                    Storage::disk('public')->delete($request->image);
                 }
-                $response = [
-                    'message' => 'Section Updated Successfully'
-                ];
-                $responseCode = 200;
+                $hero['image'] = $request->image->store('images', ['disk' => 'public']);
+                return $this->sendResponse($hero, 'section found');
             }
-            return response()->json([$response, $responseCode]);
         } else {
-            return response()->json(['message' => 'not accesible']);
+            return $this->sendError('Employee can not accesible...!');
         }
     }
 
@@ -143,26 +116,21 @@ class heroSectionController extends Controller
     public function destroy(Request $request, string $id)
     {
         if (Auth::user()->can('delete articles')) {
-            $hero = herosection::find($id);
+            $hero = $this->heroService->getById($id);
+            // dd($hero);
+            // $hero = herosection::find($id);
             // dd($hero);
             if (is_null($hero)) {
-                $response = [
-                    'message' => 'Section not found',
-                ];
-                $responseCode = 404;
+                return $this->sendError('section not found');
             } else {
                 $hero->delete();
                 if (Storage::disk('public')->exists($hero->image)) {
                     Storage::disk('public')->delete($hero->image);
                 }
-                $response = [
-                    'message' => 'Section Deleted Successfully'
-                ];
-                $responseCode = 200;
+                return $this->sendResponse([], 'Section Deleted Successfully');
             }
-            return response()->json([$response, $responseCode]);
         } else {
-            return response()->json(['message' => 'not accesible']);
+            return $this->sendError('Employee can not accesible...!');
         }
     }
 }

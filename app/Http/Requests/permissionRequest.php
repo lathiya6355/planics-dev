@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class permissionRequest extends FormRequest
 {
@@ -14,6 +17,14 @@ class permissionRequest extends FormRequest
         return true;
     }
 
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'error'   => $validator->errors()
+        ], Response::HTTP_UNPROCESSABLE_ENTITY));
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,7 +33,7 @@ class permissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
         ];
     }
 }
