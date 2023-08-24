@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class heroResource extends JsonResource
+class roleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,7 @@ class heroResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'sub_title' => $this->sub_title,
-            'description' => $this->description,
-            'image' => $this->getImageUrl($this->image),
-            'action_btn' => $this->action_btn,
-            'action_link' => $this->action_link,
+            'name' => $this->name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

@@ -22,26 +22,18 @@ class heroSectionController extends Controller
     {
         $this->heroService = $heroService;
     }
+
     /**
      * Display a listing of the resource.
      */
-
     public function index()
     {
         if (Auth::user()->can('show all articles')) {
             $heros = $this->heroService->getAll();
-            return $this->sendResponse(heroResource::collection($heros), 'section found');
+            return $this->sendResponse(heroResource::collection($heros), 'section found...!');
         } else {
-            return $this->sendError('Employee can not accesible this route');
+            return $this->sendError('Employee can not accesible...!', 401);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -50,15 +42,16 @@ class heroSectionController extends Controller
     public function store(herosectionRequest $request)
     {
         if (Auth::user()->can('create articles')) {
-            $hero = $request->validated();
+            $result = $request->all();
             if ($request->hasFile('image')) {
-                $hero['image'] = $request->image->store('images', ['disk' => 'public']);
+                $filename = $request->image->store('images', ['disk' => 'public']);
+                $result['image'] = $filename;
             }
-            $hero = herosection::create($hero);
-            $hero['image'] = asset('storage/' . $hero['image']);
-            return $this->sendResponse($hero, 'Section Created Successfully',200);
+            $hero = $this->heroService->create($result);
+            $hero['image'] = asset('storage/' . $result['image']);
+            return $this->sendResponse($hero, 'Section Created Successfully...!', 201);
         } else {
-            return $this->sendError('Employee can not accesible...!',403);
+            return $this->sendError('Employee can not accesible...!', 401);
         }
     }
 
@@ -72,19 +65,11 @@ class heroSectionController extends Controller
             if (is_null($hero)) {
                 return $this->sendError('section not found');
             } else {
-                return $this->sendResponse(new heroResource($hero), 'section retrieved successfully', Response::HTTP_FOUND);
+                return $this->sendResponse(new heroResource($hero), 'section retrieved successfully...!', 302);
             }
         } else {
-            return $this->sendError('Employee can not accesible...!');
+            return $this->sendError('Employee can not accesible...!', 401);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -93,20 +78,19 @@ class heroSectionController extends Controller
     public function update(herosectionUpdateRequest $request, $id)
     {
         if (Auth::user()->can('edit articles')) {
-            // $result = $request->all();
-            // $hero = $this->heroService->getById($id);
-            $hero = herosection::where('id', $id)->update($request->validated());
-            if ($hero == 0) {
-                return $this->sendError('section not found');
-            } else {
+            $result = $request->all();
+            if ($request->hasFile('image')) {
+                $hero = $this->heroService->getById($id);
                 if (Storage::disk('public')->exists($request->image)) {
                     Storage::disk('public')->delete($request->image);
                 }
-                $hero['image'] = $request->image->store('images', ['disk' => 'public']);
-                return $this->sendResponse($hero, 'section found');
+                $fileName = $request->image->store('images', ['disk' => 'public']);
+                $result['image'] = $fileName;
             }
+            $hero = $this->heroService->update($id, $result);
+            return $this->sendResponse($hero, 'section updated successfully...!');
         } else {
-            return $this->sendError('Employee can not accesible...!');
+            return $this->sendError('Employee can not accesible...!', 401);
         }
     }
 
@@ -117,20 +101,17 @@ class heroSectionController extends Controller
     {
         if (Auth::user()->can('delete articles')) {
             $hero = $this->heroService->getById($id);
-            // dd($hero);
-            // $hero = herosection::find($id);
-            // dd($hero);
-            if (is_null($hero)) {
-                return $this->sendError('section not found');
-            } else {
-                $hero->delete();
-                if (Storage::disk('public')->exists($hero->image)) {
-                    Storage::disk('public')->delete($hero->image);
-                }
+            $hero->delete();
+            if (Storage::disk('public')->exists($hero->image)) {
+                Storage::disk('public')->delete($hero->image);
+            }
+            if ($hero) {
                 return $this->sendResponse([], 'Section Deleted Successfully');
+            } else {
+                return $this->sendError('Section not found...!');
             }
         } else {
-            return $this->sendError('Employee can not accesible...!');
+            return $this->sendError('Employee can not accesible...!', 401);
         }
     }
 }

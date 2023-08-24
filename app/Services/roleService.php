@@ -3,14 +3,13 @@
 namespace App\services;
 
 use App\Lib\CRUDService;
-// use App\Models\herosection;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
-class permissionService extends CRUDService
+class roleService extends CRUDService
 {
     public function getModel(): Model
     {
-        return new Permission();
+        return new Role();
     }
 }

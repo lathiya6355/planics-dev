@@ -18,7 +18,16 @@ abstract class CRUDService
         return $this->getModel()::findOrFail($id);
     }
 
-    public function delete(int $id) {
-        return $this->getModel()::whereId($id)->delete();
+    public function delete($id) {
+        return $this->getModel()::where($id)->delete();
+    }
+
+    public function create($result) {
+        return $this->getModel()::create($result);
+    }
+
+    public function update($id , $result) {
+        $model = $this->getModel()::findOrFail($id);
+        return $model->update($result);
     }
 }

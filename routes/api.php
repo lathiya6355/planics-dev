@@ -27,6 +27,7 @@ Route::post('login', [userController::class, 'login'])->name('login-post');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [userController::class, 'logout'])->name('logout-post');
+    Route::delete('delete-user/{id}',[userController::class , 'deleteUser']);   
     Route::group(['middleware' => ['role:Admin']], function () {
         Route::post('permission-create', [permissioncontroller::class, 'store']);
         Route::get('permission-view/{id}', [permissioncontroller::class, 'show']);
