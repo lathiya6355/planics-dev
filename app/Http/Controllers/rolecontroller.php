@@ -25,11 +25,12 @@ class rolecontroller extends Controller
      */
     public function index()
     {
-        $role = $this->roleService->getAll();
-        if (is_null($role)) {
+        $roles = $this->roleService->getAll();
+        if (is_null($roles)) {
             return $this->sendError('Role not found...!');
         } else {
-            return $this->sendResponse(roleResource::collection($role), 'Role retrieved successfully...!');
+            $returnHTML = view('front-end.role.roleDataTable')->with('roles', $roles)->render();
+            return response()->json(['success' => true, 'html' => $returnHTML]);
         }
     }
 
@@ -46,7 +47,7 @@ class rolecontroller extends Controller
         $role->givePermissionTo($permissions);
         return $this->sendResponse($permission, 'Role Created Successfully', 201);
     }
-    
+
     /**
      * Display the specified resource.
      */

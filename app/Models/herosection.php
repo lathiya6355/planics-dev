@@ -21,7 +21,7 @@ class herosection extends Model
     ];
 
     public function getImageUrl($image) {
-        // return url(asset('public/'.$image));
-        return url(Storage::url($image));
+        return asset('/storage'.$image);
+        // return url(Storage::url($image));
     }
 }

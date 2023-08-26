@@ -25,11 +25,13 @@ class permissioncontroller extends Controller
      **/
     public function index()
     {
-        $permission = $this->permissionService->getAll();
-        if (is_null($permission)) {
+        $permissions = $this->permissionService->getAll();
+        if (is_null($permissions)) {
             return $this->sendError('Permission not found...!');
         } else {
-            return $this->sendResponse(permissionResource::collection($permission), 'Permission retrieved successfully...! ');
+            $returnHTML = view('front-end.permission.permissionDataTable')->with('permissions', $permissions)->render();
+            return response()->json(['success' => true, 'html' => $returnHTML]);
+            // return $this->sendResponse(permissionResource::collection($permission), 'Permission retrieved successfully...! ');
         }
     }
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\heroSectionController;
 use App\Http\Controllers\permissioncontroller;
 use App\Http\Controllers\rolecontroller;
+use App\Http\Controllers\userApiCalling;
 use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,10 +26,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [userController::class, 'register'])->name('register-post');
 Route::post('login', [userController::class, 'login'])->name('login-post');
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [userController::class, 'logout'])->name('logout-post');
-    Route::delete('delete-user/{id}',[userController::class , 'deleteUser']);   
-    Route::group(['middleware' => ['role:Admin']], function () {
+    Route::delete('delete-user/{id}',[userController::class , 'deleteUser']);
+    // Route::group(['middleware' => ['role:Admin']], function () {
         Route::post('permission-create', [permissioncontroller::class, 'store']);
         Route::get('permission-view/{id}', [permissioncontroller::class, 'show']);
         Route::get('permission-all', [permissioncontroller::class, 'index']);
@@ -42,10 +43,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('role-update', [rolecontroller::class, 'update']);
         Route::delete('role-delete/{id}', [rolecontroller::class, 'destroy']);
         Route::post('assignpermission', [rolecontroller::class, 'assignpermission']);
-    });
+    // });
     Route::post('store', [heroSectionController::class, 'store'])->name('store-post');
     Route::put('update/{id}', [heroSectionController::class, 'update'])->name('update-post');
     Route::delete('delete/{id}', [heroSectionController::class, 'destroy'])->name('delete-post');
     Route::get('view/{id}', [heroSectionController::class, 'show'])->name('show-get');
-    Route::get('view', [heroSectionController::class, 'index'])->name('showAll-get');
-});
+    Route::get('view-all', [heroSectionController::class, 'index'])->name('showAll-get');
+// });
+

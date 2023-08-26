@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\loginRequest;
 use App\Http\Requests\registerUserRequest;
 use App\Models\User;
 use App\services\userService;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Http;
 
 class userController extends Controller
 {
@@ -30,9 +33,10 @@ class userController extends Controller
         }
     }
 
-    public function login(Request $request)
+    public function login(loginRequest $request)
     {
-        if (Auth::attempt($request->all())) {
+        // dd($request->all());
+        if (Auth::attempt($request->validated())) {
             $user = Auth::user();
             $user->getRoleNames();
             // $token = $user->createToken("auth_Token")->accessToken;

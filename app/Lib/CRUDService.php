@@ -9,25 +9,33 @@ abstract class CRUDService
 {
     abstract function getModel(): Model;
 
-    public function getAll()
+    public function getAll(): Collection
     {
         return $this->getModel()::all();
     }
 
-    public function getById(int $id) : Model {
+    public function getById(int $id): Model
+    {
         return $this->getModel()::findOrFail($id);
     }
 
-    public function delete($id) {
-        return $this->getModel()::where($id)->delete();
-    }
-
-    public function create($result) {
+    public function create($result): Model
+    {
         return $this->getModel()::create($result);
     }
 
-    public function update($id , $result) {
+    public function delete($id): bool
+    {
+        return $this->getModel()::where($id)->delete();
+    }
+
+    public function update($id, $result) : bool
+    {
         $model = $this->getModel()::findOrFail($id);
         return $model->update($result);
+    }
+
+    public function link($result) {
+        return url('/' . $result['action_link']);
     }
 }

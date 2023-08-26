@@ -35,8 +35,9 @@ class registerUserRequest extends FormRequest
         // dd(true);
         return [
             'name'=>'required',
-            'email'=>'required|unique:users,email',
-            'password'=>'required'
+            'email'=>'required|unique:users,email|email',
+            'password'=>'required|confirmed',
+            'password_confirmation' => 'required'
         ];
     }
 }
