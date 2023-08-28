@@ -42,19 +42,19 @@ class heroSectionController extends Controller
      */
     public function store(herosectionRequest $request)
     {
-        if (Auth::user()->can('create articles')) {
-            $result = $request->all();
-            if ($request->hasFile('image')) {
-                $filename = $request->image->store('images', ['disk' => 'public']);
-                $result['image'] = $filename;
-            }
-            $hero = $this->heroService->create($result);
-            $hero['action_link'] = $this->heroService->link($result);
-            $hero['image'] = asset('storage/' . $result['image']);
-            return $this->sendResponse($hero, 'Section Created Successfully...!', 201);
-        } else {
-            return $this->sendError('Employee can not accesible...!', 401);
+        // if (Auth::user()->can('create articles')) {
+        $result = $request->validated();
+        if ($request->hasFile('image')) {
+            $filename = $request->image->store('images', ['disk' => 'public']);
+            $result['image'] = $filename;
         }
+        $hero = $this->heroService->create($result);
+        $hero['action_link'] = $this->heroService->link($result);
+        $hero['image'] = asset('storage/' . $result['image']);
+        return $this->sendResponse($hero, 'Section Created Successfully...!', 201);
+        // } else {
+        // return $this->sendError('Employee can not accesible...!', 401);
+        // }
     }
 
 
@@ -68,8 +68,10 @@ class heroSectionController extends Controller
             if (is_null($result)) {
                 return $this->sendError('section not found');
             } else {
-                $result['action_link'] = $this->heroService->link($result);
-                return $this->sendResponse(new heroResource($result), 'section retrieved successfully...!', 302);
+                $returnHTML = view('front-end.heroSection.preview')->with('result', $result)->render();
+                return response()->json(['success' => true, 'html' => $returnHTML]);
+                // $result['action_link'] = $this->heroService->link($result);
+                // return $this->sendResponse(new heroResource($result), 'section retrieved successfully...!', 200);
             }
         } else {
             return $this->sendError('Employee can not accesible...!', 401);
@@ -81,21 +83,22 @@ class heroSectionController extends Controller
      */
     public function update(herosectionUpdateRequest $request, $id)
     {
-        if (Auth::user()->can('edit articles')) {
-            $result = $request->all();
-            if ($request->hasFile('image')) {
-                $hero = $this->heroService->getById($id);
-                if (Storage::disk('public')->exists($request->image)) {
-                    Storage::disk('public')->delete($request->image);
-                }
-                $fileName = $request->image->store('images', ['disk' => 'public']);
-                $result['image'] = $fileName;
+        // if (Auth::user()->can('edit articles')) {
+        $result = $request->all();
+        if ($request->hasFile('image')) {
+            $hero = $this->heroService->getById($id);
+            if (Storage::disk('public')->exists($request->image)) {
+                Storage::disk('public')->delete($request->image);
             }
-            $hero = $this->heroService->update($id, $result);
-            return $this->sendResponse($hero, 'section updated successfully...!');
-        } else {
-            return $this->sendError('Employee can not accesible...!', 401);
+            $fileName = $request->image->store('images', ['disk' => 'public']);
+            $result['image'] = $fileName;
         }
+        $hero = $this->heroService->update($id, $result);
+
+        return $this->sendResponse($hero, 'section updated successfully...!');
+        // } else {
+        //     return $this->sendError('Employee can not accesible...!', 401);
+        // }
     }
 
     /**

@@ -24,7 +24,7 @@
         <section >
             <div class="d-flex align-items-center justify-content-end">
                 <div class="me-3 mb-4">
-                    <a href="#">
+                    <a href="{{ url('/permission-add') }}">
                         <button class="btn btn-info">Create</button>
                     </a>
                 </div>
@@ -36,6 +36,7 @@
 
             </div>
         </div>
+        <script src="{{ url('frontend/plugins/jquery/jquery.min.js') }}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="{{ asset('js/permission.js') }}"></script>
 

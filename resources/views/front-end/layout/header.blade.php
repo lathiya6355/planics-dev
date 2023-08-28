@@ -112,6 +112,8 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
+            <input type="hidden" id="site_url" value="{{url('/')}}">
+
             <a href="{{ url('dashboard') }}" class="brand-link">
                 <img src="{{ url('frontend/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -139,7 +141,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+                with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
                             <a href="{{ url('/dashboard') }}"
                                 class="nav-link {{ 'dashboard' == request()->path() ? 'active' : '' }}">
@@ -160,7 +162,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/permission') }}" class="nav-link {{ 'permission' == request()->path() ? 'active' : '' }}">
+                            <a href="{{ url('/permission') }}"
+                                class="nav-link {{ 'permission' == request()->path() ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>
                                     Permission
@@ -169,7 +172,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/role') }}" class="nav-link class="nav-link {{ 'role' == request()->path() ? 'active' : '' }}">
+                            <a href="{{ url('/role') }}"
+                                class="nav-link {{ 'role' == request()->path() ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>
                                     Role
@@ -178,5 +182,16 @@
                             </a>
                         </li>
 
-                        <!-- /.sidebar -->
+                        <li class="nav-item">
+                            <a href="" class="nav-link {{ 'logout' == request()->path() ? 'active' : '' }}"
+                                onclick="logout()">
+                                <i class="nav-icon fas fa-copy"></i>
+                                <p>
+                                    Logout
+                                    {{-- <i class="fas fa-angle-left right"></i> --}}
+                                </p>
+                            </a>
+                        </li>
         </aside>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="{{ asset('js/register.js') }}"></script>

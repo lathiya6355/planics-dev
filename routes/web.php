@@ -48,25 +48,29 @@ Route::get('/permission' , function() {
 Route::get('/role' , function() {
     return view('front-end.role.role');
 });
-// Route::get('post',[userApiCalling::class,'index']);
-// Route::middleware('checkUserLogin')->group(function() {
-    // Route::get('/dashboard',[homeController::class, 'index'])->name('dashboard');
 
-//      function index() {
-//         return view('front-end.index');
-//     }
-//     Route::get('/logout',[authController::class, 'logout'])->name('logout');
+Route::get('/hero-add' , function() {
+    return view('front-end.heroSection.heroAdd');
+});
 
-//     Route::get('/product',[productController::class, 'index'])->name('product');
-// // });
+Route::get('/permission-add' , function() {
+    return view('front-end.permission.permissionAdd');
+});
 
-// // Route::middleware('checkUserLogout')->group(function() {
-//     Route::get('/login', function() {
-//         return view('login');
-//     });
-//     Route::post('/ ',[authController::class, 'login'])->name('login');
+Route::get('/role-add' , function() {
+    return view('front-end.role.roleAdd');
+});
 
-//     Route::get('/register',[authController::class, 'register_user'])->name('register_view');
+Route::get('/hero-update/{id}' , function($id) {
+    return view('front-end.heroSection.heroUpdate');
+});
 
-//     Route::post('/register',[authController::class, 'register'])->name('register');
-// });
+Route::get('/permission-update/{id}' , function() {
+    return view('front-end.permission.permissionUpdate');
+});
+
+Route::get('/preview-data/{id}' , function() {
+    return view('front-end.heroSection.preview-data');
+});
+
+

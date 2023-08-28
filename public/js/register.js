@@ -10,14 +10,12 @@ function register() {
         },
         error: function(e) {
             console.log(e.responseJSON.error);
-            $('#nameError').html('');
-            $('#emailError').html('');
-            $('#passwordError').html('');
-            $('#confirm').html('');
-            $('#nameError').html(e.responseJSON.error.name);
-            $('#emailError').html(e.responseJSON.error.email);
-            $('#passwordError').html(e.responseJSON.error.password);
-            $('#confirmError').html(e.responseJSON.error.password_confirmation);
+            $('.registerError').html('');
+            Object.keys(e.responseJSON.error).forEach(element => {
+                e.responseJSON.error[element];
+                console.log(e.responseJSON.error[element]);
+                $(`#${element}Error`).html(e.responseJSON.error[element]);
+            });
         }
     });
 }
@@ -34,12 +32,26 @@ function login() {
         },
         error: function(e) {
             console.log(e);
-            $('#authError').html('');
-            $('#emailError').html('');
-            $('#passwordError').html('');
-            $('#authError').html(e.responseJSON.message);
-            $('#emailError').html(e.responseJSON.error.email);
-            $('#passwordError').html(e.responseJSON.error.password);
+            $('.loginError').html('');
+            Object.keys(e.responseJSON.error).forEach(element => {
+                e.responseJSON.error[element];
+                $(`#${element}Error`).html(e.responseJSON.error[element]);
+            });
+        }
+    });
+}
+
+function logout() {
+    $.ajax({
+        url: 'api/logout',
+        type: "post",
+        headers:{
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        success : function() {
+            localStorage.removeItem("token");
+            window.location.href = "/"
+
         }
     });
 }

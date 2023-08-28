@@ -11,7 +11,7 @@ abstract class CRUDService
 
     public function getAll(): Collection
     {
-        return $this->getModel()::all();
+        return $this->getModel()::get();
     }
 
     public function getById(int $id): Model

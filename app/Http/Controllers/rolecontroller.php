@@ -26,6 +26,9 @@ class rolecontroller extends Controller
     public function index()
     {
         $roles = $this->roleService->getAll();
+        foreach($roles as $role) {
+            $role['permissions'] = $role->permissions;
+        }
         if (is_null($roles)) {
             return $this->sendError('Role not found...!');
         } else {
@@ -54,6 +57,7 @@ class rolecontroller extends Controller
     public function show(string $id)
     {
         $role = $this->roleService->getById($id);
+
         if (is_null($role)) {
             return $this->sendError('Role not found');
         } else {

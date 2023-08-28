@@ -26,6 +26,9 @@ class permissioncontroller extends Controller
     public function index()
     {
         $permissions = $this->permissionService->getAll();
+        foreach($permissions as $permission) {
+            $permission['role'] = $permission->role;
+        }
         if (is_null($permissions)) {
             return $this->sendError('Permission not found...!');
         } else {
@@ -55,10 +58,12 @@ class permissioncontroller extends Controller
     public function show(string $id)
     {
         $permission = $this->permissionService->getById($id);
+        $permission['role'] = $permission->roles;
+        // dd($permission);
         if (is_null($permission)) {
             return $this->sendError('Permission not found...!');
         } else {
-            return $this->sendResponse(new permissionResource($permission), 'Permission retrieved successfully...!', 302);
+            return $this->sendResponse(new permissionResource($permission), 'Permission retrieved successfully...!', 200);
         }
     }
 
@@ -69,8 +74,10 @@ class permissioncontroller extends Controller
     {
         $role = $request->role_id;
         $roles = explode(',', $role);
+        // dd($request->permission_id);
         $permission = $this->permissionService->getById($request->permission_id);
-        if (is_null($permission)) {
+        // dd($permission);
+        if ($permission == null) {
             return $this->sendError('permission does not exist..!');
         } else {
             DB::table('role_has_permissions')->where('permission_id', $request->permission_id)->delete();
