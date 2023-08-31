@@ -1,5 +1,8 @@
 var url = $('#site_url').val();
 $(document).ready(function() {
+    count();
+});
+function count() {
     $.ajax({
         url: '/api/count',
         type: "GET",
@@ -15,4 +18,4 @@ $(document).ready(function() {
             console.log(e);
         }
     });
-});
+}

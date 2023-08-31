@@ -9,8 +9,8 @@ use App\services\userService;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Http;
+// use Laravel\Passport\Passport;
+// use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 // use Symfony\Component\HttpFoundation\Session\Session as SessionSession;
@@ -44,7 +44,7 @@ class userController extends Controller
 
         $user = User::where('email', $email)->first();
         if ($user && Hash::check($password, $user->password)) {
-            Session::put('user', $user);
+            // Session::put('user', $user);
             // dd( Session::put('user', $user));
             $user->getRoleNames();
             // $token = $user->createToken("auth_Token")->accessToken;

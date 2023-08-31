@@ -14,7 +14,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="{{ url('frontend/plugins/jquery/jquery.min.js') }}"></script>
+{{-- <script src="{{ url('frontend/plugins/jquery/jquery.min.js') }}"></script> --}}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {{-- bootstrap --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
@@ -34,7 +34,7 @@
 <!-- ChartJS -->
 <script src="{{ url('frontend/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->
-<script src="{{ url('frontend/plugins/sparklines/sparkline.js') }}"></script>
+{{-- <script src="{{ url('frontend/plugins/sparklines/sparkline.js') }}"></script> --}}
 <!-- JQVMap -->
 <script src="{{ url('frontend/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
 <script src="{{ url('frontend/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
