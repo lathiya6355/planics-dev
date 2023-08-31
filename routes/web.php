@@ -35,7 +35,7 @@ Route::get('/register', function () {
     return view('register');
 });
 // Route::middleware('auth')->group(function () {
-// Route::group(['middleware' => 'web'], function () {
+Route::group(['middleware' => 'auth'], function () {
     // Route::auth();
     Route::get('/dashboard', function () {
         // dd(Auth::user());
@@ -45,7 +45,7 @@ Route::get('/register', function () {
     Route::get('/heroSection', function () {
         return view('front-end.heroSection.herosSection');
     });
-// });
+});
 Route::get('/permission', function () {
     return view('front-end.permission.permission');
 });

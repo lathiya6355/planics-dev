@@ -34,7 +34,7 @@
 <!-- ChartJS -->
 <script src="{{ url('frontend/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->
-{{-- <script src="{{ url('frontend/plugins/sparklines/sparkline.js') }}"></script> --}}
+<script src="{{ url('frontend/plugins/sparklines/sparkline.js') }}"></script>
 <!-- JQVMap -->
 <script src="{{ url('frontend/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
 <script src="{{ url('frontend/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>

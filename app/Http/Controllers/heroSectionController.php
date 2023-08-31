@@ -70,7 +70,7 @@ class heroSectionController extends Controller
             } else {
                 // $returnHTML = view('front-end.heroSection.preview')->with('result', $result)->render();
                 // return response()->json(['success' => true, 'html' => $returnHTML]);
-                // $result['action_link'] = $this->heroService->link($result);
+                $result['action_link'] = $this->heroService->link($result);
                 return $this->sendResponse(new heroResource($result), 'section retrieved successfully...!', 200);
             }
         // } else {

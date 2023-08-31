@@ -32,7 +32,7 @@
                     <input type="text" class="form-control" id="updatename" placeholder="Enter name" name="title">
                     <span class="text-danger role-update-error" id="nameUpdateError"></span>
                 </div>
-                <div class="selectBoxId_data" id="">
+                <div class="selectBoxId_data" id="selectBoxId_data">
                     <label><input type="checkbox" name="permission_id[]" value="" class="selectall"/>Hero Section</label><br/>
                     {{-- <label><input type="checkbox" name="permission_id[]" value="1" class=" selectBoxId"/>create</label><br />
                     <label><input type="checkbox" name="permission_id[]" value="2" class=" selectBoxId"/>update</label><br />
@@ -46,6 +46,6 @@
         {{-- <script src="{{ url('frontend/plugins/jquery/jquery.min.js') }}"></script> --}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="{{ asset('js/role.js') }}"></script>
-        
+
         <!-- /.content-wrapper -->
     @endsection

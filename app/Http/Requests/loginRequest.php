@@ -17,13 +17,13 @@ class loginRequest extends FormRequest
         return true;
     }
 
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'error'   => $validator->errors()
-        ], Response::HTTP_UNPROCESSABLE_ENTITY));
-    }
+    // public function failedValidation(Validator $validator)
+    // {
+    //     throw new HttpResponseException(response()->json([
+    //         'success'   => false,
+    //         'error'   => $validator->errors()
+    //     ], Response::HTTP_UNPROCESSABLE_ENTITY));
+    // }
     /**
      * Get the validation rules that apply to the request.
      *

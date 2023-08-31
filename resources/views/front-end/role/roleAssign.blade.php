@@ -45,7 +45,7 @@
                     <span class="text-danger hero-update-error" id="permissionError"></span> --}}
                     {{-- <span class="text-danger role-assign-error" id="permissionError"></span> --}}
                 </div>
-                <div class="selectBoxId_data" id="">
+                <div class="selectBoxId" id="selectBoxId_data">
                     <label><input type="checkbox" name="permission_id[]" value="" class="selectall"/>Hero Section</label><br/>
                     {{-- <label><input type="checkbox" name="permission_id[]" value="1" class=" selectBoxId"/>create</label><br />
                     <label><input type="checkbox" name="permission_id[]" value="2" class=" selectBoxId"/>update</label><br />

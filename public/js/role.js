@@ -22,11 +22,11 @@ function edit_data(hash) {
         },
         success: function (response) {
             selected_permission = response.data.permissionsIds;
-            console.log('ere',response.data.permissionsIds);
+            console.log('ere', response.data.permissionsIds);
             // console.log('dcs',response.data.role[0].name);
             $("#updatename").val(response.data.name);
-            var roleid= response.data.permissions[0].id;
-            console.log('sfdgfg',roleid);
+            var roleid = response.data.permissions[0].id;
+            console.log('sfdgfg', roleid);
         },
         error: function (e) {
             console.log(e);
@@ -93,10 +93,10 @@ function update() {
     const id = window.location.pathname.split("/")[2];
     // console.log(id);
     let permissionIds = [];
-    $('input[name="permission"]:checked').each(function() {
+    $('input[name="permission"]:checked').each(function () {
         console.log(this.value);
         permissionIds.push(this.value);
-     });
+    });
     //  console.log(permissionIds.toString());
     let formdata = new FormData();
     formdata.append("name", $('#updatename').val());
@@ -114,7 +114,7 @@ function update() {
         success: function (response) {
             $("#role-update-success").html(response.message);
             window.location.href = `${url}/role`
-        }, error: function(e) {
+        }, error: function (e) {
             $('.role-update-error').html(e.responseJSON.error.name);
         }
     });
@@ -127,11 +127,11 @@ function assign() {
     // console.log($('#selectBoxId .selectBox').val());
     // console.log('sffdsfd',$('input[name="permission"]:checked').val());
     let permissionIds = [];
-    $('input[name="permission"]:checked').each(function() {
+    $('input[name="permission"]:checked').each(function () {
         console.log(this.value);
         permissionIds.push(this.value);
-     });
-     console.log(permissionIds.toString());
+    });
+    console.log(permissionIds.toString());
     let formdata = new FormData();
     formdata.append("roles", $('#selectBoxId_role').val());
     formdata.append("permission", permissionIds.toString());
@@ -199,37 +199,80 @@ function getAllPermissions() {
                 var html = response.data[element]['name'];
                 console.log(id);
                 $("#selectBoxId_permission").append(`<option value="${id}" name = "permission" >${html}</option>`);
-                $("#selectBoxId").append(`<label><input type="checkbox" value="${id}" name="permission_id[]" class="selectBox"/>${html}</lable>`);
-                $(".selectBoxId_data").append(`<label><input type="checkbox" value="${id}" name="permission"  class="selectBoxId" id="permission_id" ${selected_permission.includes(id) ? 'checked' : ''}/>${html}</lable>`);
+                $("#selectBoxId").append(`<label><input type="checkbox" value="${id}" name="permission_id[]" class="selectBox" onclick="unselect()"/>${html}</lable>`);
+                $("#selectBoxId_data").append(`<label><input type="checkbox" value="${id}" name="permission"  class="selectBoxId" onclick="unselect_data()" id="permission_id" ${selected_permission.includes(id) ? 'checked' : ''}/>${html}</lable>`);
             });
         }
     });
-}
+} +
 
-function getAllRoles() {
-    $.ajax({
-        url: `${url}/api/role-all-drop`,
-        type: "GET",
-        headers: {
-            Authorization: "Bearer" + localStorage.getItem("token")
-        },
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            console.log(response);
-            Object.keys(response.data).forEach(element => {
-                var id = response.data[element]['id'];
-                var html = response.data[element]['name'];
-                $("#selectBoxId_role").append(`<option value="${id}" class="role_id" name = "roles">${html}</option>`);
-            });
-        }
-    });
-}
+    function getAllRoles() {
+        $.ajax({
+            url: `${url}/api/role-all-drop`,
+            type: "GET",
+            headers: {
+                Authorization: "Bearer" + localStorage.getItem("token")
+            },
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(response);
+                Object.keys(response.data).forEach(element => {
+                    var id = response.data[element]['id'];
+                    var html = response.data[element]['name'];
+                    $("#selectBoxId_role").append(`<option value="${id}" class="role_id" name = "roles">${html}</option>`);
+                });
+            }
+        });
+    }
 
-$('.selectall').click(function() {
+$('.selectall').click(function () {
     if ($(this).is(':checked')) {
-        $('div input').attr('checked', true);
+        $('div input').each(function () {
+            $(this).prop("checked", true);
+        });
     } else {
-        $('div input').attr('checked', false);
+        $('div input').each(function () {
+            $(this).prop("checked", false);
+        });
     }
 });
+function unselect() {
+    if ($("#selectBoxId .selectBox").length == $("#selectBoxId .selectBox:checked").length){
+        $(".selectall").prop("checked",true);
+    } else {
+        $(".selectall").prop("checked",false);
+    }
+}
+function unselect_data() {
+    if ($("#selectBoxId_data .selectBoxId").length == $("#selectBoxId_data .selectBoxId:checked").length){
+        $(".selectall").prop("checked",true);
+    } else {
+        $(".selectall").prop("checked",false);
+    }
+}
+// $(function () {
+//     $("#checkAll").click(function () {
+//         $("input[name='employeeIdsToDelete']").attr("checked", this.checked);
+
+//         $("input[name='employeeIdsToDelete']").click(function () {
+//             if ($("input[name='employeeIdsToDelete']").length == $("input[name='employeeIdsToDelete']:checked").length) {
+//                 $("#checkAll").attr("checked", "checked");
+//             }
+//             else {
+//                 $("#checkAll").removeAttr("checked");
+//             }
+//         });
+
+//     });
+//     $("#btnSubmit").click(function () {
+//         var count = $("input[name='employeeIdsToDelete']:checked").length;
+//         if (count == 0) {
+//             alert("No rows selected to delete");
+//             return false;
+//         }
+//         else {
+//             return confirm(count + " row(s) will be deleted");
+//         }
+//     });
+// });

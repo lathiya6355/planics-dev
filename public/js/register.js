@@ -31,12 +31,12 @@ function login() {
             window.location.href = "dashboard"
         },
         error: function(e) {
-            console.log(e);
-            $('.loginError').html('');
-            Object.keys(e.responseJSON.error).forEach(element => {
-                e.responseJSON.error[element];
-                $(`#${element}Error`).html(e.responseJSON.error[element]);
-            });
+            $('#authError').html(e.responseJSON.message);
+            // $('.loginError').html('');
+            // Object.keys(e.responseJSON.error).forEach(element => {
+            //     e.responseJSON.error[element];
+            //     $(`#${element}Error`).html(e.responseJSON.error[element]);
+            // });
         }
     });
 }
