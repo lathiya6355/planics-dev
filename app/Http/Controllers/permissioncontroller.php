@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\permissionRequest;
 use App\Http\Requests\permissionUpdateRequest;
+use App\Http\Requests\updateRolePermissonRequest;
 use App\Http\Resources\permissionResource;
 use App\services\permissionService;
 use Illuminate\Http\Request;
@@ -38,6 +39,19 @@ class permissioncontroller extends Controller
         }
     }
 
+    public function permission_all() {
+        $permission = $this->permissionService->getAll();
+        // dd($permissions);
+        // foreach($permissions as $permission) {
+        //     $permission['role'] = $permission->role;
+        // }
+        if (is_null($permission)) {
+            return $this->sendError('Permission not found...!');
+        } else {
+            return $this->sendResponse(permissionResource::collection($permission), 'Permission retrieved successfully...! ');
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -46,10 +60,10 @@ class permissioncontroller extends Controller
         $result = $permission->all();
         $result['guard_name'] = 'web';
         $permission = $this->permissionService->create($result);
-        $role = $request->role_id;
-        $roles = explode(',', $role);
-        $permission->assignRole($roles);
-        return $this->sendResponse($permission, 'Permission Created Successfully...!', 201);
+        // $role = $request->role_id;
+        // $roles = explode(',', $role);
+        // $permission->assignRole($roles);
+        return $this->sendResponse($permission, 'Permission Created Successfully...!', 200);
     }
 
     /**
@@ -70,21 +84,12 @@ class permissioncontroller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request , $id)
     {
-        $role = $request->role_id;
-        $roles = explode(',', $role);
-        // dd($request->permission_id);
-        $permission = $this->permissionService->getById($request->permission_id);
-        // dd($permission);
-        if ($permission == null) {
-            return $this->sendError('permission does not exist..!');
-        } else {
-            DB::table('role_has_permissions')->where('permission_id', $request->permission_id)->delete();
-            $permission->update(['guard_name' => 'web', 'name' => isset($request->name) ? $request->name : $permission->name]);
-            $permission->assignRole($roles);
-            return $this->sendResponse($roles, 'Permission updated successfully...!');
-        }
+        $result = $request->all();
+        $permission = $this->permissionService->getById($id);
+        $permission = $this->permissionService->update($id, $result);
+        return $this->sendResponse($permission, 'Permission updated successfully...!');
     }
 
     /**
@@ -101,12 +106,35 @@ class permissioncontroller extends Controller
         }
     }
 
-    public function assignrole(Request $request)
-    {
-        $role = $request->role_id;
-        $roles = explode(',', $role);
-        $permission = Permission::find($request->permission_id);
-        $permission->assignRole($roles);
-        return $this->sendResponse($roles, 'Roles assign...!');
-    }
+    // public function assignrole(Request $request)
+    // {
+    //     // dd($request  ->all());
+    //     $role = $request->roles;
+    //     // dd($role);
+    //     $roles = explode(',', $role);
+    //     // dd($roles);
+    //     $permission  =$this->permissionService->getById($request->permission);
+    //     dd($permission);
+    //     $permission->assignRole($roles);
+    //     return $this->sendResponse($roles, 'Roles assign...!');
+    //     // $permission = $request->permission;
+    //     // $permissions = explode(',', $permission);
+    //     // $role = $this->roleService->getById($request->roles);
+    //     // $role->givePermissionTo($permissions);
+    //     // return $this->sendResponse($permissions, 'Permission assign...!');
+    // }
+    // public function update_role(updateRolePermissonRequest $request )
+    // {
+    //     $role = $request->roles;
+    //     $roles = explode(',', $role);
+    //     $permission = $this->permissionService->getById($request->permission);
+    //     if ($permission == null) {
+    //         return $this->sendError('permission does not exist..!');
+    //     } else {
+    //         DB::table('role_has_permissions')->where('permission_id', $request->permission)->delete();
+    //         $permission->assignRole($roles);
+    //         return $this->sendResponse($roles, 'Permission updated successfully...!');
+    //     }
+    // }
 }
+

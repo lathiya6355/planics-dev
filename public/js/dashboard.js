@@ -1,9 +1,7 @@
 var url = $('#site_url').val();
-$(document).ready(function () {
-    const hash = window.location.pathname.split("/")[2];
-    console.log(hash);
+$(document).ready(function() {
     $.ajax({
-        url: `${url}/api/preview/${hash}`,
+        url: '/api/count',
         type: "GET",
         processData: false,
         contentType: false,
@@ -11,9 +9,10 @@ $(document).ready(function () {
             Authorization: "Bearer " + localStorage.getItem("token")
         },
         success: function (response) {
-            console.log(response);
-            $('#preview_data').append(response.html);
+            $(".totle_section").html(response.data);
+        },
+        error: function (e) {
+            console.log(e);
         }
     });
 });
-

@@ -1,5 +1,6 @@
   @extends('front-end.layout.main')
   @section('main.section')
+      <input type="hidden" id="site_url" value="{{ url('/') }}">
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
           <!-- Content Header (Page header) -->
@@ -27,13 +28,13 @@
                           <!-- small box -->
                           <div class="small-box bg-info">
                               <div class="inner">
-                                  <h3>150</h3>
-                                  <p>Total Products</p>
+                                  <h3 class="totle_section">150</h3>
+                                  <p>Hero Section</p>
                               </div>
                               <div class="icon">
                                   <i class="ion ion-bag"></i>
                               </div>
-                              <a href="#" class="small-box-footer">More info <i
+                              <a href="{{ url('heroSection') }}" class="small-box-footer">More info <i
                                       class="fas fa-arrow-circle-right"></i></a>
                           </div>
                       </div>
@@ -61,3 +62,6 @@
 
               <!-- /.content-wrapper -->
           @endsection
+          <script src="{{ url('frontend/plugins/jquery/jquery.min.js') }}"></script>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+          <script src="{{ asset('js/dashboard.js') }}"></script>

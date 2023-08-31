@@ -4,6 +4,7 @@ use App\Http\Controllers\heroSectionController;
 use App\Http\Controllers\userApiCalling;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,50 +28,68 @@ use Illuminate\Support\Facades\Route;
 //     return view('front-end.index');
 // });
 
-Route::get('/' , function() {
+Route::get('/', function () {
     return view('login');
-});
-
-Route::get('/register' , function() {
+})->name('login');
+Route::get('/register', function () {
     return view('register');
 });
+// Route::middleware('auth')->group(function () {
+// Route::group(['middleware' => 'web'], function () {
+    // Route::auth();
+    Route::get('/dashboard', function () {
+        // dd(Auth::user());
+        return view('front-end.index');
+    });
 
-Route::get('/dashboard' , function() {
-    return view('front-end.index');
-});
-
-Route::get('/heroSection' , function() {
-    return view('front-end.heroSection.herosSection');
-});
-Route::get('/permission' , function() {
+    Route::get('/heroSection', function () {
+        return view('front-end.heroSection.herosSection');
+    });
+// });
+Route::get('/permission', function () {
     return view('front-end.permission.permission');
 });
-Route::get('/role' , function() {
+
+Route::get('/role', function () {
     return view('front-end.role.role');
 });
 
-Route::get('/hero-add' , function() {
+Route::get('/hero-add', function () {
     return view('front-end.heroSection.heroAdd');
 });
 
-Route::get('/permission-add' , function() {
+Route::get('/permission-add', function () {
     return view('front-end.permission.permissionAdd');
 });
 
-Route::get('/role-add' , function() {
+Route::get('/role-add', function () {
     return view('front-end.role.roleAdd');
 });
 
-Route::get('/hero-update/{id}' , function($id) {
+Route::get('/hero-update/{id}', function ($id) {
     return view('front-end.heroSection.heroUpdate');
 });
 
-Route::get('/permission-update/{id}' , function() {
+Route::get('/permission-update/{id}', function () {
     return view('front-end.permission.permissionUpdate');
 });
 
-Route::get('/preview-data/{id}' , function() {
-    return view('front-end.heroSection.preview-data');
+Route::get('/role-assign', function () {
+    return view('front-end.role.roleAssign');
 });
 
+Route::get('/role-update/{id}', function () {
+    return view('front-end.role.roleUpdate');
+});
+Route::get('/roleUpdate-Permission', function () {
+    return view('front-end.role.rolePermissionUpdate');
+});
 
+Route::get('/permission-roleUpdate', function () {
+    return view('front-end.permission.permissionRoleUpdate');
+});
+
+Route::get('/preview-data/{id}', function () {
+    return view('front-end.heroSection.preview-data');
+});
+// });

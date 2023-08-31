@@ -4,29 +4,33 @@ $(document).ready(function () {
     view();
     const hash = window.location.pathname.split("/")[2];
     if (hash != undefined) {
-        $.ajax({
-            url: `${url}/api/view/${hash}`,
-            type: "GET",
-            processData: false,
-            contentType: false,
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token")
-            },
-            success: function (response) {
-                console.log(response);
-                $("#updateTitle").val(response.data.title);
-                $("#updateSub_title").val(response.data.sub_title);
-                $("#updateDescription").val(response.data.description);
-                $("#updateImage").attr('src', response.data.image);
-                $("#updateAction_btn").val(response.data.action_btn);
-                $("#updateAction_link").val(response.data.action_link);
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        });
+        edit_data(hash);
     }
 });
+
+function edit_data(hash) {
+    $.ajax({
+        url: `${url}/api/view/${hash}`,
+        type: "GET",
+        processData: false,
+        contentType: false,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        success: function (response) {
+            console.log(response);
+            $("#updateTitle").val(response.data.title);
+            $("#updateSub_title").val(response.data.sub_title);
+            $("#updateDescription").val(response.data.description);
+            $("#updateImage").attr('src', response.data.image);
+            $("#updateAction_btn").val(response.data.action_btn);
+            $("#updateAction_link").val(response.data.action_link);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
 
 function view() {
     $('#table_data').empty();

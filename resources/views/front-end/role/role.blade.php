@@ -21,11 +21,17 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <section >
+        <section>
             <div class="d-flex align-items-center justify-content-end">
                 <div class="me-3 mb-4">
                     <a href="{{url('/role-add')}}">
                         <button class="btn btn-info">Create</button>
+                    </a>
+                    <a href="{{ url('/role-assign') }}">
+                        <button class="btn btn-success">Assign</button>
+                    </a>
+                    <a href="{{ url('/roleUpdate-Permission') }}">
+                        <button class="btn btn-warning">Update</button>
                     </a>
                 </div>
             </div>
@@ -35,6 +41,13 @@
             <div id="table_data">
 
             </div>
+        </div>
+        <div>
+            {{-- <select name="" id="">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+            </select> --}}
         </div>
         <script src="{{ url('frontend/plugins/jquery/jquery.min.js') }}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

@@ -27,8 +27,9 @@
                 <td>{{ $role->updated_at }}</td>
                 <td style="width: 90px">
                     <i class="bi bi-trash3 me-2 text-danger" onclick="delete_data({{ $role->id }})"></i>
-                    <i class="bi bi-pencil-square me-2 text-warning"></i>
-                    <i class="bi bi-eye text-success"></i>
+                    <a href="{{ url('/role-update/'.$role->id) }}">
+                        <i class="bi bi-pencil-square me-2 text-warning"></i>
+                    </a>
                 </td>
             </tr>
         @endforeach

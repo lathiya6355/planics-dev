@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Update Permission</h1>
+                        <h1 class="m-0">Update Permission Assign</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Permission Update</li>
+                            <li class="breadcrumb-item active">update Permission Assign</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -22,16 +22,23 @@
 
         <!-- Main content -->
         <section class="container">
-            <form method="POST" id="hero_update">
+            <div>
+                <h4 id="assign-message" class="text-success"></h4>
+            </div>
+            <form method="POST" id="permission_assign">
                 {{-- @csrf --}}
                 <div class="mb-3">
-                    <label for="name" class="form-label">Enter Name</label>
-                    <input type="text" class="form-control" id="updatename" placeholder="Enter name" name="title">
-                    <span class="text-danger hero-update-error" id="nameUpdateError"></span>
+                    <label for="role" class="form-label">Role ID</label>
+                    <input type="text" class="form-control" id="roles" placeholder="Enter Role ID" name="role">
+                    <span class="text-danger permission-update-error" id="roleError"></span>
                 </div>
 
-                <img src="" alt="" id="image_preview_container" >
-                <button type="button" class="btn btn-primary my-3" onclick="update()">Update</button>
+                <div class="mb-3">
+                    <label for="permission" class="form-label">Permission ID</label>
+                    <input type="text" class="form-control" id="permission" placeholder="Enter Permission ID" name="permission">
+                    <span class="text-danger permission-update-error" id="permissionError"></span>
+                </div>
+                <button type="button" class="btn btn-primary my-3" onclick="updateRole()">Update</button>
             </form>
         </section>
         {{-- <script src="{{ url('frontend/plugins/jquery/jquery.min.js') }}"></script> --}}

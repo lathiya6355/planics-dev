@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
+// use Symfony\Component\HttpFoundation\Session\Session as SessionSession;
 
 class userController extends Controller
 {
@@ -36,19 +39,42 @@ class userController extends Controller
     public function login(loginRequest $request)
     {
         // dd($request->all());
-        if (Auth::attempt($request->validated())) {
-            $user = Auth::user();
+        $email = $request->email;
+        $password = $request->password;
+
+        $user = User::where('email', $email)->first();
+        if ($user && Hash::check($password, $user->password)) {
+            Session::put('user', $user);
+            // dd( Session::put('user', $user));
             $user->getRoleNames();
             // $token = $user->createToken("auth_Token")->accessToken;
             $user['token'] = $user->createToken("MyAuthApp")->plainTextToken;
+            // dd($user);
+            // return response()->json(['user' => $user , 'User login successfully' , 200]);
             return $this->sendResponse($user, 'User login successfully.', 200);
-        } else {
-            return $this->sendError('Unauthorised.', 401);
         }
+        return $this->sendError('Unauthorised.', 401);
+        // if (Auth::attempt($request->all())) {
+
+        //     $user = Auth::user();
+        //     // dd($user);
+        //     // $users = $request->session()->put('user', $user);
+        //     // dd($users);
+
+        //     // $user->getRoleNames();
+        //     // $user->getPermissionNames();
+        //     // $token = $user->createToken("auth_Token")->accessToken;
+        //     $user['token'] = $user->createToken("MyAuthApp")->plainTextToken;
+        //     // dd($user);
+        //     return $this->sendResponse($user, 'User login successfully.', 200);
+        // } else {
+        //     return $this->sendError('Unauthorised.', 401);
+        // }
     }
 
     public function logout(Request $request)
     {
+        // dd($request->all());
         $request->user()->tokens()->delete();
         return $this->sendResponse([], 'user logout', 200);
     }

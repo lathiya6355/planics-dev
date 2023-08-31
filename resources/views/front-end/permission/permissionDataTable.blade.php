@@ -26,7 +26,6 @@
                     <a href="{{ url('/permission-update/'.$permission->id) }}">
                         <i class="bi bi-pencil-square me-2 text-warning"></i>
                     </a>
-                    <i class="bi bi-eye text-success"></i>
                 </td>
             </tr>
         @endforeach

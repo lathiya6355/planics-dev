@@ -36,6 +36,7 @@
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     {{-- bootstrap icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         .drop_padding {
             padding-bottom: 100px !important;
@@ -112,7 +113,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <input type="hidden" id="site_url" value="{{url('/')}}">
+            <input type="hidden" id="site_url" value="{{ url('/') }}">
 
             <a href="{{ url('dashboard') }}" class="brand-link">
                 <img src="{{ url('frontend/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
@@ -161,6 +162,9 @@
                                 </p>
                             </a>
                         </li>
+                        {{-- {{dd(auth()->user())}} --}}
+                        {{-- @role('admin') --}}
+                        {{-- @can('create') --}}
                         <li class="nav-item">
                             <a href="{{ url('/permission') }}"
                                 class="nav-link {{ 'permission' == request()->path() ? 'active' : '' }}">
@@ -181,9 +185,10 @@
                                 </p>
                             </a>
                         </li>
-
+                        {{-- @endrole --}}
+                        {{-- @endc  an --}}
                         <li class="nav-item">
-                            <a href="" class="nav-link {{ 'logout' == request()->path() ? 'active' : '' }}"
+                            <a href="#" class="nav-link {{ 'logout' == request()->path() ? 'active' : '' }}"
                                 onclick="logout()">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>

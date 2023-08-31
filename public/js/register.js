@@ -42,16 +42,16 @@ function login() {
 }
 
 function logout() {
+    alert('hello');
     $.ajax({
         url: 'api/logout',
         type: "post",
         headers:{
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        success : function() {
+        success : function(response) {
             localStorage.removeItem("token");
-            window.location.href = "/"
-
+            window.location.href = "/";
         }
     });
 }

@@ -27,6 +27,9 @@
                     <a href="{{ url('/permission-add') }}">
                         <button class="btn btn-info">Create</button>
                     </a>
+                    {{-- <a href="{{ url('/permission-roleUpdate') }}">
+                        <button class="btn btn-info">Update</button>
+                    </a> --}}
                 </div>
             </div>
         </section>

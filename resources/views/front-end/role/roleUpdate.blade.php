@@ -22,21 +22,30 @@
 
         <!-- Main content -->
         <section class="container">
+            <div>
+                <h3 id="role-update-success" class="text-success"></h3>
+            </div>
             <form method="POST" id="hero_update">
                 {{-- @csrf --}}
                 <div class="mb-3">
                     <label for="name" class="form-label">Enter Name</label>
                     <input type="text" class="form-control" id="updatename" placeholder="Enter name" name="title">
-                    <span class="text-danger hero-update-error" id="nameUpdateError"></span>
+                    <span class="text-danger role-update-error" id="nameUpdateError"></span>
                 </div>
-
+                <div class="selectBoxId_data" id="">
+                    <label><input type="checkbox" name="permission_id[]" value="" class="selectall"/>Hero Section</label><br/>
+                    {{-- <label><input type="checkbox" name="permission_id[]" value="1" class=" selectBoxId"/>create</label><br />
+                    <label><input type="checkbox" name="permission_id[]" value="2" class=" selectBoxId"/>update</label><br />
+                    <label><input type="checkbox" name="permission_id[]" value="3" class=" selectBoxId"/>delete</label><br />
+                    <label><input type="checkbox" name="permission_id[]" value="4" class=" selectBoxId"/>show</label><br /> --}}
+                </div>
                 <img src="" alt="" id="image_preview_container" >
                 <button type="button" class="btn btn-primary my-3" onclick="update()">Update</button>
             </form>
         </section>
         {{-- <script src="{{ url('frontend/plugins/jquery/jquery.min.js') }}"></script> --}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="{{ asset('js/permission.js') }}"></script>
-
+        <script src="{{ asset('js/role.js') }}"></script>
+        
         <!-- /.content-wrapper -->
     @endsection
