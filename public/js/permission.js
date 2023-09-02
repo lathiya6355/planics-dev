@@ -1,5 +1,4 @@
 var url = $('#site_url').val();
-
 $(document).ready(function () {
     view();
     const hash = window.location.pathname.split("/")[2];
@@ -91,7 +90,7 @@ function delete_data(id) {
 
 function update() {
     const id = window.location.pathname.split("/")[2];
-    console.log(id);
+    // console.log(id);
     let formdata = new FormData();
     formdata.append("name", $('#updatename').val());
     $.ajax({
@@ -144,7 +143,7 @@ function getAllRoles() {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             Object.keys(response.data).forEach(element => {
                 var id = response.data[element]['id'];
                 var html = response.data[element]['name'];

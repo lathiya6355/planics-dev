@@ -28,7 +28,7 @@
                           <!-- small box -->
                           <div class="small-box bg-info">
                               <div class="inner">
-                                  <h3 class="totle_section">150</h3>
+                                  <h3 class="total_section"></h3>
                                   <p>Hero Section</p>
                               </div>
                               <div class="icon">
@@ -43,8 +43,8 @@
                           <!-- small box -->
                           <div class="small-box bg-success">
                               <div class="inner">
-                                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-                                  <p>Total Category</p>
+                                  <h3 class="total_role"></h3>
+                                  <p>Total Roles</p>
                               </div>
                               <div class="icon">
                                   <i class="ion ion-stats-bars"></i>
@@ -54,7 +54,7 @@
                           </div>
                       </div>
                       <!-- ./col -->
-
+                      
                       <!-- ./col -->
                   </div>
                   <!-- /.row -->

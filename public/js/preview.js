@@ -1,7 +1,7 @@
 var url = $('#site_url').val();
 $(document).ready(function () {
     const hash = window.location.pathname.split("/")[2];
-    console.log(hash);
+    // console.log(hash);
     $.ajax({
         url: `${url}/api/preview/${hash}`,
         type: "GET",

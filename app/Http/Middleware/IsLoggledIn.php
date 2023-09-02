@@ -6,10 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Session;
 
-
-class checkUserLogin
+class IsLoggledIn
 {
     /**
      * Handle an incoming request.
@@ -18,11 +16,7 @@ class checkUserLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        dd(Auth::user());
-        if (Session::has('user')) {
-            return $next($request);
-        } else {
-            return redirect('/');
-        }
+        // dd(Auth::user());
+        return $next($request);
     }
 }

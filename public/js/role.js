@@ -22,11 +22,11 @@ function edit_data(hash) {
         },
         success: function (response) {
             selected_permission = response.data.permissionsIds;
-            console.log('ere', response.data.permissionsIds);
+            // console.log('ere', response.data.permissionsIds);
             // console.log('dcs',response.data.role[0].name);
             $("#updatename").val(response.data.name);
             var roleid = response.data.permissions[0].id;
-            console.log('sfdgfg', roleid);
+            // console.log('sfdgfg', roleid);
         },
         error: function (e) {
             console.log(e);
@@ -94,7 +94,7 @@ function update() {
     // console.log(id);
     let permissionIds = [];
     $('input[name="permission"]:checked').each(function () {
-        console.log(this.value);
+        // console.log(this.value);
         permissionIds.push(this.value);
     });
     //  console.log(permissionIds.toString());
@@ -128,10 +128,10 @@ function assign() {
     // console.log('sffdsfd',$('input[name="permission"]:checked').val());
     let permissionIds = [];
     $('input[name="permission"]:checked').each(function () {
-        console.log(this.value);
+        // console.log(this.value);
         permissionIds.push(this.value);
     });
-    console.log(permissionIds.toString());
+    // console.log(permissionIds.toString());
     let formdata = new FormData();
     formdata.append("roles", $('#selectBoxId_role').val());
     formdata.append("permission", permissionIds.toString());
@@ -147,7 +147,7 @@ function assign() {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response.message);
+            // console.log(response.message);
             $('#assign-message').html(response.message);
             window.location.href = `${url}/role`
         },
@@ -197,14 +197,14 @@ function getAllPermissions() {
             Object.keys(response.data).forEach(element => {
                 var id = response.data[element]['id'];
                 var html = response.data[element]['name'];
-                console.log(id);
+                // console.log(id);
                 $("#selectBoxId_permission").append(`<option value="${id}" name = "permission" >${html}</option>`);
                 $("#selectBoxId").append(`<label><input type="checkbox" value="${id}" name="permission_id[]" class="selectBox" onclick="unselect()"/>${html}</lable>`);
                 $("#selectBoxId_data").append(`<label><input type="checkbox" value="${id}" name="permission"  class="selectBoxId" onclick="unselect_data()" id="permission_id" ${selected_permission.includes(id) ? 'checked' : ''}/>${html}</lable>`);
             });
         }
     });
-} +
+} 
 
     function getAllRoles() {
         $.ajax({
@@ -216,7 +216,7 @@ function getAllPermissions() {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(response);
+                // console.log(response);
                 Object.keys(response.data).forEach(element => {
                     var id = response.data[element]['id'];
                     var html = response.data[element]['name'];

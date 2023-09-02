@@ -42,7 +42,7 @@ function login() {
 }
 
 function logout() {
-    alert('hello');
+    // alert('hello');
     $.ajax({
         url: 'api/logout',
         type: "post",

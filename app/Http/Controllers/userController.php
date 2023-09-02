@@ -38,32 +38,10 @@ class userController extends Controller
 
     public function login(loginRequest $request)
     {
-        // dd($request->all());
-        // $email = $request->email;
-        // $password = $request->password;
-
-        // $user = User::where('email', $email)->first();
-        // if ($user && Hash::check($password, $user->password)) {
-        //     // Session::put('user', $user);
-        //     // dd( Session::put('user', $user));
-        //     $user->getRoleNames();
-        //     // $token = $user->createToken("auth_Token")->accessToken;
-        //     $user['token'] = $user->createToken("MyAuthApp")->plainTextToken;
-        //     // dd($user);
-        //     return $this->sendResponse($user, 'User login successfully.', 200);
-        // }
-        // return $this->sendError('Unauthorised.', 401);
         if (Auth::attempt($request->all())) {
-
             $user = Auth::user();
-            // dd($user);
-            // $users = $request->session()->put('user', $user);
-            // dd(Session::put('user',Auth::user()));
             $user->getRoleNames();
-            // dd(Session::set('user',Auth::user()));
-            // $token = $user->createToken("auth_Token")->accessToken;
             $user['token'] = $user->createToken("MyAuthApp")->plainTextToken;
-            // dd($user);
             return $this->sendResponse($user, 'User login successfully.', 200);
         } else {
             return $this->sendError('Please enter valid Email and Password.', 401);
@@ -83,4 +61,13 @@ class userController extends Controller
         $user->delete();
         return $this->sendResponse([], 'User Deleted Successfully...!');
     }
+
+    public function refresh(Request $request)
+{
+    $request->user()->tokens()->delete();
+    $token = $request->user()->createToken('refresh Token')->plainTextToken;
+    return $this->sendResponse($token,'Refresh Token...!');
+
+    // return response()->json([ ]);
+}
 }

@@ -38,4 +38,7 @@ abstract class CRUDService
     public function link($result) {
         return url('/' . $result['action_link']);
     }
+    // public function cardLink($result) {
+    //     return url('/' . $result['card_action_link']);
+    // }
 }

@@ -31,6 +31,7 @@ class rolecontroller extends Controller
         foreach ($roles as $role) {
             $role['permissions'] = $role->permissions;
         }
+        // dd($roles);
         if (is_null($roles)) {
             return $this->sendError('Role not found...!');
         } else {

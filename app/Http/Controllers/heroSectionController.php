@@ -24,16 +24,17 @@ class heroSectionController extends Controller
      */
     public function index()
     {
-        // if (Auth::user()->can('show all articles')) {
+        if (Auth::user()->can('show')) {
             $heros = $this->heroService->getAll();
             foreach ($heros as  $hero) {
                 $hero['action_link'] = url('/' . $hero['action_link']);
             }
-            $returnHTML = view('front-end.heroSection.heroDataTable')->with('heros', $heros)->render();
-            return response()->json(['success' => true, 'html' => $returnHTML]);
-        // } else {
-        //     return $this->sendError('Employee can not accesible...!', 401);
-        // }
+            // $returnHTML = view('front-end.heroSection.heroDataTable')->with('heros', $heros)->render();
+            // return response()->json(['success' => true, 'html' => $returnHTML]);
+            return $this->sendResponse($heros, 'Section Created Successfully...!', 201);
+        } else {
+            return $this->sendError('Employee can not accesible...!', 401);
+        }
         // return $this->sendResponse($returnHTML, 'section found...!');
     }
 
@@ -42,7 +43,7 @@ class heroSectionController extends Controller
      */
     public function store(herosectionRequest $request)
     {
-        // if (Auth::user()->can('create')) {
+        if (Auth::user()->can('create')) {
             $result = $request->validated();
             if ($request->hasFile('image')) {
                 $filename = $request->image->store('images', ['disk' => 'public']);
@@ -52,9 +53,9 @@ class heroSectionController extends Controller
             $hero['action_link'] = $this->heroService->link($result);
             $hero['image'] = asset('storage/' . $result['image']);
             return $this->sendResponse($hero, 'Section Created Successfully...!', 201);
-        // } else {
-        //     return $this->sendError('Employee can not accesible...!', 401);
-        // }
+        } else {
+            return $this->sendError('Employee can not accesible...!', 401);
+        }
     }
 
 
@@ -63,7 +64,7 @@ class heroSectionController extends Controller
      */
     public function show(string $id)
     {
-        // if (Auth::user()->can('show')) {
+        if (Auth::user()->can('show')) {
             $result = $this->heroService->getById($id);
             if (is_null($result)) {
                 return $this->sendError('section not found');
@@ -71,27 +72,28 @@ class heroSectionController extends Controller
                 // $returnHTML = view('front-end.heroSection.preview')->with('result', $result)->render();
                 // return response()->json(['success' => true, 'html' => $returnHTML]);
                 $result['action_link'] = $this->heroService->link($result);
-                return $this->sendResponse(new heroResource($result), 'section retrieved successfully...!', 200);
+                return $this->sendResponse($result, 'section retrieved successfully...!', 200);
             }
-        // } else {
-        //     return $this->sendError('Employee can not accesible...!', 401);
-        // }
+        } else {
+            return $this->sendError('Employee can not accesible...!', 401);
+        }
     }
 
     public function preview($id)
     {
-        // if (Auth::user()->can('show')) {
+        if (Auth::user()->can('show')) {
             $result = $this->heroService->getById($id);
             if (is_null($result)) {
                 return $this->sendError('section not found');
             } else {
-                $returnHTML = view('front-end.heroSection.preview')->with('result', $result)->render();
-                return response()->json(['success' => true, 'html' => $returnHTML]);
+                // $returnHTML = view('front-end.heroSection.preview')->with('result', $result)->render();
+                // return response()->json(['success' => true, 'html' => $returnHTML]);
                 // $result['action_link'] = $this->heroService->link($result);
+                return $this->sendResponse(($result), 'section retrieved successfully...!', 200);
             }
-        // } else {
-        //     return $this->sendError('Employee can not accesible...!', 401);
-        // }
+        } else {
+            return $this->sendError('Employee can not accesible...!', 401);
+        }
     }
     // }
 
@@ -100,7 +102,7 @@ class heroSectionController extends Controller
      */
     public function update(herosectionUpdateRequest $request, $id)
     {
-        // if (Auth::user()->can('update')) {
+        if (Auth::user()->can('edit')) {
             $result = $request->all();
             if ($request->hasFile('image')) {
                 $hero = $this->heroService->getById($id);
@@ -111,11 +113,10 @@ class heroSectionController extends Controller
                 $result['image'] = $fileName;
             }
             $hero = $this->heroService->update($id, $result);
-
             return $this->sendResponse($hero, 'section updated successfully...!');
-        // } else {
-        //     return $this->sendError('Employee can not accesible...!', 401);
-        // }
+        } else {
+            return $this->sendError('Employee can not accesible...!', 401);
+        }
     }
 
     /**
@@ -123,15 +124,15 @@ class heroSectionController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        // if (Auth::user()->can('delete')) {
+        if (Auth::user()->can('delete')) {
             $hero = $this->heroService->getById($id);
             $hero->delete();
             if (Storage::disk('public')->exists($hero->image)) {
                 Storage::disk('public')->delete($hero->image);
             }
             return $this->sendResponse([], 'Section Deleted Successfully');
-        // } else {
-        //     return $this->sendError('Employee can not accesible...!', 401);
-        // }
+        } else {
+            return $this->sendError('Employee can not Delete Articles...!', 401);
+        }
     }
 }

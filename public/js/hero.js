@@ -97,6 +97,9 @@ function delete_data(id) {
         success: function (response) {
             view();
         },
+        error: function(e) {
+            $("#emp_error").html(e.responseJSON.message);
+        }
     });
 }
 
@@ -104,7 +107,7 @@ function update() {
     // alert('hello');
     const id = window.location.pathname.split("/")[2];
     var file = $('#updateImage').prop("files")[0];
-    console.log(file);
+    // console.log(file);
     let formdata = new FormData();
     formdata.append("title", $('#updateTitle').val());
     formdata.append("sub_title", $('#updateSub_title').val());
@@ -130,6 +133,7 @@ function update() {
             window.location.href = `${url}/heroSection`
         },
         error: function (e) {
+            // e.responseJSON.message;
             $('.hero-update-error').html('');
             Object.keys(e.responseJSON.error).forEach(element => {
                 e.responseJSON.error[element];

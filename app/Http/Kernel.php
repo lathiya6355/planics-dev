@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'checkUserLogin' => \App\Http\Middleware\checkUserLogin::class,
         'checkUserLogout' => \App\Http\Middleware\checkUserLogout::class,
+        'isloggedin' => \App\Http\Middleware\IsLoggledIn::class,
     ];
 }

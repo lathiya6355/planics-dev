@@ -20,6 +20,11 @@
         </div>
         <!-- /.content-header -->
 
+        <section class="container">
+            <div>
+                <h2 id="emp_error" class="text-warning"></h2>
+            </div>
+        </section>
         <!-- Main content -->
         <section>
             <div class="d-flex align-items-center justify-content-end">
