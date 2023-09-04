@@ -21,7 +21,7 @@ class cardSectionController extends Controller
     public function index()
     {
         if (Auth::user()->can('show')) {
-            $cardsections = cardSection::with('cards')->get();
+            $cardsections = cardSection::get();
             // $cardsections = $this->cardSectionService->getAll();
             return $this->sendResponse($cardsections, 'Card Section Created Successfully...!', 201);
         } else {
